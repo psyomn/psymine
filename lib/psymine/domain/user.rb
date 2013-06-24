@@ -1,4 +1,4 @@
-module Psymine
+module Psymine::Domain
 # @author  Simon Symeonidis
 # @license GPL v3.0
 # @date    Sat Jun 22 23:29:09 EDT 2013
