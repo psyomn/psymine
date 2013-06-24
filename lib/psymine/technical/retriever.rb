@@ -1,4 +1,6 @@
 require 'net/http'
+require 'psymine/technical/technical_exception'
+
 module Psymine::Technical
 # @author  Simon Symeonidis
 # @license GPL v3.0
@@ -20,8 +22,10 @@ class Retriever
   #   order to initialize the retriever (and make it understand how to 
   #   interface with redmine).
   def initialize(hparams)
-    raise TechnicalException, "hparams is not a hash" unless hparams.is_a? Hash
+    # Asserts!
+    check_if_properly_initialized(hparams)
 
+    # Main init
   end
 
   # Fetch the information from the Redmine tracker.
@@ -29,7 +33,27 @@ class Retriever
   def fetch!
   end
 
-  attr_accessor :api_key
+  attr_accessor :api_key, :username, :password
+
+private
+
+  # Checks to see if everything was properly initialized
+  # @hparams are the params passed to the constructor
+  def check_if_properly_initialized(hparams)
+    raise TechnicalException, "hparams is not a hash" unless hparams.is_a? Hash
+
+    if (hparams[:username].nil? || hparams[:username] == ""   ||
+        hparams[:password].nil? || hparams[:password] == "" ) &&
+       !(hparams.keys.member? :api_key) then
+      raise TechnicalException, "You need to specify both credentials"
+      return
+    end
+
+    if (hparams[:api_key].nil? || hparams[:api_key] == "")  &&
+       ((hparams.keys & [:username, :password]).count == 0) then
+      raise TechnicalException, "API key cannot be blank"
+    end
+  end
 
 end
 end # module Psymine
