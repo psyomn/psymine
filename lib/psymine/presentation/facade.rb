@@ -1,3 +1,4 @@
+require 'psymine'
 require 'psymine/technical/retriever'
 module Psymine::Presentation
 # @author  Simon Symeonidis
