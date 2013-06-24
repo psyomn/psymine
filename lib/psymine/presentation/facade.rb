@@ -8,8 +8,9 @@ module Psymine::Presentation
 # library.
 class Facade
 
-  def self.fetch_issues_by_api_key(api_key)
-    ret = Retriever.new({:api_key => api_key})
+  def self.fetch_issues_by_api_key(redmine_uri,api_key)
+    include Psymine::Technical
+    ret = Retriever.new({:api_key => api_key, :uri => redmine_uri})
     ret.fetch!
   end
 

@@ -2,6 +2,7 @@ require 'open-uri'
 require 'net/http'
 
 # lib
+require 'psymine/rest'
 require 'psymine/technical/technical_exception'
 
 module Psymine::Technical
@@ -27,9 +28,10 @@ class Retriever
   def initialize(hparams)
     # Asserts!
     check_if_properly_initialized(hparams)
-    @username = hparams[:username]
-    @password = hparams[:password]
-    @api_key  = hparams[:api_key]
+    @username    = hparams[:username]
+    @password    = hparams[:password]
+    @api_key     = hparams[:api_key]
+    @redmine_uri = URI(hparams[:uri] + "issues.json")
     # Main init
   end
 
@@ -52,20 +54,38 @@ class Retriever
 private
 
   # Provide the API to the REST resource and get info
+  # @return TODO stuff
   def fetch_by_api_key
-    
+    response = nil
+    Net::HTTP.start(@redmine_uri.host, @redmine_uri.port) do |http|
+      req = Net::HTTP::Get.new(@redmine_uri)
+      
+      # Set the user authentication API key
+      req[Psymine::Rest::HttpHeader] = @api_key
+      response = http.request req
+    end
+    response
   end
 
   # Provide the username and password to the service using the Http headers
-  # to send said information. (IMHO you should just use the API key).
+  # to send said information. (IMHO you should just use the API key; this 
+  # method exists here if the provider does not allow you to use an API key for
+  # whatever twisted reason at that).
   def fetch_by_username_and_password
+    raise NotImplemented, "This might make an appearance later..."
   end
 
 
   # Checks to see if everything was properly initialized
   # @hparams are the params passed to the constructor
   def check_if_properly_initialized(hparams)
+    # It MUST be a hash
     raise TechnicalException, "hparams is not a hash" unless hparams.is_a? Hash
+
+    # It MUST have a URI
+    if (hparams[:uri].nil? || hparams[:uri] == "") then
+      raise TechnicalException, "need a URI" 
+    end
 
     if (hparams[:username].nil? || hparams[:username] == ""   ||
         hparams[:password].nil? || hparams[:password] == "" ) &&

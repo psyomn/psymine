@@ -19,28 +19,39 @@ describe Retriever do
   end
 
   it "should accept :username, :password in init" do
-    expect{Retriever.new({:username => "jon", :password => "doe"})}.to_not \
+    expect{Retriever.new({:username => "jon", :password => "doe", :uri => "a"}\
+      )}.to_not raise_error(TechnicalException)
+  end
+
+  it "must have a uri specified" do
+    expect{Retriever.new({:api_key => "derp", :uri => ""})}.to \
+      raise_error(TechnicalException)
+
+    expect{Retriever.new({:api_key => "derp", :uri => nil})}.to \
+      raise_error(TechnicalException)
+
+    expect{Retriever.new({:api_key => "derp"})}.to \
       raise_error(TechnicalException)
   end
 
   it "should accept :api_key" do
-    expect{Retriever.new({:api_key => "derp"})}.to_not \
+    expect{Retriever.new({:api_key => "derp", :uri => "a"})}.to_not \
       raise_error(TechnicalException)
   end
 
   it "should not accept blank :api_key" do
-    expect{Retriever.new({:api_key => ""})}.to \
+    expect{Retriever.new({:api_key => "", :uri => "a"})}.to \
       raise_error(TechnicalException,"API key cannot be blank")
-    expect{Retriever.new({:api_key => nil})}.to \
+    expect{Retriever.new({:api_key => nil, :uri => "a"})}.to \
       raise_error(TechnicalException, "API key cannot be blank")
   end
 
   it "must have username AND password" do
-    expect{Retriever.new({:username => "jon", :password => ""})}.to \
+    expect{Retriever.new({:username => "jon", :password => "", :uri => "a"})}.to \
       raise_error(TechnicalException, "You need to specify both credentials")
-    expect{Retriever.new({:username => "", :password => "jon"})}.to \
+    expect{Retriever.new({:username => "", :password => "jon", :uri => "a"})}.to \
       raise_error(TechnicalException, "You need to specify both credentials")
-    expect{Retriever.new({:username => "", :password => ""})}.to \
+    expect{Retriever.new({:username => "", :password => "", :uri => "a"})}.to \
       raise_error(TechnicalException, "You need to specify both credentials")
   end
 end
