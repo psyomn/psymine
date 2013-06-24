@@ -1,3 +1,4 @@
+require 'psymine'
 module Psymine::Technical
 # @author  Simon Symeonidis
 # @license GPL v3.0
