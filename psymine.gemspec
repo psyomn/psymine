@@ -5,8 +5,8 @@ require File.expand_path('../lib/psymine/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = "psymine"
   gem.version       = Psymine::VERSION
-  gem.summary       = %q{TODO: Summary}
-  gem.description   = %q{TODO: Description}
+  gem.summary       = %q{Lightweight interface to the Redmine API}
+  gem.description   = %q{A lightweight interface to the Redmine API}
   gem.license       = "GPLv3.0"
   gem.authors       = ["psyomn"]
   gem.email         = "lethaljellybean@gmail.com"
