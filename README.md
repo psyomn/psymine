@@ -44,6 +44,10 @@ this [here](http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication
 If there is anything ever that arises, you can just open an issue on the github
 tracker of this project.
 
+Also, I'm supporting the core features of the API for redmine. I have finite
+time on my hands, so if there's something missing, it should be relatively 
+easy to implement.
+
 ## Copyright
 
 Copyright (c) 2013 psyomn, GPL v3.0

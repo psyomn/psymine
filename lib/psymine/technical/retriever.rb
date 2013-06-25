@@ -14,12 +14,12 @@ module Psymine::Technical
 # appropriate JSON.
 class Retriever
 
-  # @example Connecting with Username and Password 
-  #   ret = Retriever.new({:user => '...', :password => '...'})
+  # @example Connecting with Username and Password and fetching Issues
+  #   ret = Retriever.new({:user => '...', :password => '...', :get => :issues})
   #   ret.fetch!
   #
-  # @example Connecting with API generated Key
-  #   ret = Retriever.new({:api => '...'}) 
+  # @example Connecting with API generated Key and fetching Projects
+  #   ret = Retriever.new({:api => '...', :get => :projects}) 
   #   ret.fetch!
   # 
   # @params hparams are the hash values passed that are used accordingly in
@@ -31,7 +31,8 @@ class Retriever
     @username    = hparams[:username]
     @password    = hparams[:password]
     @api_key     = hparams[:api_key]
-    @redmine_uri = URI(hparams[:uri] + "issues.json")
+    @resource    = hparams[:get]
+    @redmine_uri = URI(hparams[:uri] + "%s.json" % @resource)
     # Main init
   end
 
@@ -86,18 +87,28 @@ private
     if (hparams[:uri].nil? || hparams[:uri] == "") then
       raise TechnicalException, "need a URI" 
     end
-
-    if (hparams[:username].nil? || hparams[:username] == ""   ||
-        hparams[:password].nil? || hparams[:password] == "" ) &&
-       !(hparams.keys.member? :api_key) then
-      raise TechnicalException, "You need to specify both credentials"
-      return
+    
+    if hparams[:get].nil? # It must have a :get param
+      raise TechnicalException, "need a Symbol for resource request" 
+    else # It must have an acknowleged symbol
+      known = [:issues, :projects]
+      unless known.member? hparams[:get]
+        raise TechnicalException, "Do not know resource '%s'" % hparams[:get]
+      end
     end
 
     if (hparams[:api_key].nil? || hparams[:api_key] == "")  &&
-       ((hparams.keys & [:username, :password]).count == 0) then
+       ((hparams.keys & [:username, :password]).count == 0) && 
+       (hparams[:username].nil?) then
       raise TechnicalException, "API key cannot be blank"
     end
+
+    if (hparams[:username].nil? || hparams[:username] == ""   ||
+        hparams[:password].nil? || hparams[:password] == "" ) && 
+        hparams[:api_key].nil? then
+      raise TechnicalException, "You need to specify both credentials"
+    end
+
   end
 
 end

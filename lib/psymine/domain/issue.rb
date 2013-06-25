@@ -6,5 +6,12 @@ module Psymine::Domain
 class Issue
   def initialize
   end
+
+  attr_accessor :id
+  attr_accessor :status
+  attr_accessor :project
+  attr_accessor :description
+  attr_accessor :author
+  attr_accessor :done_ratio
 end # class Issue
 end # Psymine::Domain

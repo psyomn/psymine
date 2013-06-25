@@ -10,7 +10,8 @@ class Facade
 
   def self.fetch_issues_by_api_key(redmine_uri,api_key)
     include Psymine::Technical
-    ret = Retriever.new({:api_key => api_key, :uri => redmine_uri})
+    ret = Retriever.new({:api_key => api_key, 
+                         :uri => redmine_uri, :get => :issues})
     ret.fetch!
   end
 
