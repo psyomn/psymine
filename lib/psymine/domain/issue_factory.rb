@@ -27,10 +27,17 @@ private
   # @param json is the single json element that represents one issue
   # @return Issue
   def self.create_from_data(element)
-    issue             = Issue.new
+    issue              = Issue.new
 
-    issue.id          = element["identifier"]
-    issue.description = element["description"]
+    issue.id           = element["id"]
+    issue.description  = element["description"]
+    issue.project_name = element["project"]["name"]
+    issue.project_id   = element["project"]["id"]
+    issue.status_name  = element["status"]["name"]
+    issue.status_id    = element["status"]["id"]
+    issue.author_name  = element["author"]["name"]
+    issue.author_id    = element["author"]["id"]
+    issue.done_ratio   = element["done_ratio"]
     issue
   end
 
