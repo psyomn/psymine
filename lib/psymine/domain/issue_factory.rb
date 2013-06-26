@@ -30,6 +30,7 @@ private
     issue              = Issue.new
 
     issue.id           = element["id"]
+    issue.subject      = element["subject"]
     issue.description  = element["description"]
     issue.project_name = element["project"]["name"]
     issue.project_id   = element["project"]["id"]

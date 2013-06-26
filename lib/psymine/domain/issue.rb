@@ -12,6 +12,7 @@ class Issue
   # For cute console output. Subclass and overload if you want your own output.
   # @return String representation of the Issue domain object
   def to_s
+    "[#{@id}] #{} (#{@project_name})"
   end
 
   # For debugging that is easy on the eyes.
@@ -19,16 +20,18 @@ class Issue
   def inspect
     "<#{self.class.name.split('::').last} "\
       "@id=#{@id} "\
-      "@status_name=\"#{@status_name}\"' "\
+      "@subject=#{@subject} "\
       "@status_id=#{@status_id} "\
-      "@author_name=\"#{@author_name}\" "\
+      "@status_name=\"#{@status_name}\"' "\
       "@author_id=#{@author_id} "\
+      "@author_name=\"#{@author_name}\" "\
       "@project_id=#{@project_id} "\
       "@project_name=\"#{@project_name}\" "\
       "@done_ratio=#{@done_ratio}>"
   end
 
   attr_accessor :id
+  attr_accessor :subject
   attr_accessor :status_id
   attr_accessor :status_name
   attr_accessor :project_id
