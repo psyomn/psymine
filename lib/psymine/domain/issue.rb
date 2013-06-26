@@ -26,7 +26,8 @@ class Issue
   # For cute console output. Subclass and overload if you want your own output.
   # @return String representation of the Issue domain object
   def to_s
-    "[#{@id}] #{} (#{@project_name})"
+    "[#{@id}] #{@subject} (#{@project_name})\n"\
+    "#{@description}\n"
   end
 
   # For debugging that is easy on the eyes.
