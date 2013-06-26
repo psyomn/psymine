@@ -26,12 +26,16 @@ class Project
   # For cute console output. Subclass and overload if you want your own output.
   # @return String representation of the Project domain object
   def to_s
+    "[#{@id}] #{@name}\n"\
+    "#{@description}\n"
   end
 
   # For debugging that is easy on the eyes.
   # @return String concise description of the object
   def inspect
-    "<#{self.name} @id=#{@id} @name=#{@name}>"
+    "<#{self.class.name.split('::').last} "\
+      "@id=#{@id} "\
+      "@name=\"#{@name}\">"
   end
 
   # NOTE it looks like redmine probably stores the name in string format for
