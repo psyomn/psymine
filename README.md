@@ -1,11 +1,16 @@
 # psymine
 
-Psymine is an API interface to Redmine. This is standalone meaning there are
-no other dependencies you need in order to use this.
+Psymine is an API interface to Redmine. This gem requires no dependencies in
+order to work with Redmine.
 
 * [Homepage](https://rubygems.org/gems/psymine)
 * [Documentation](http://rubydoc.info/gems/psymine/frames)
 * [Email](mailto:lethaljellybean at gmail.com)
+
+### Disclaimer
+
+I'm still working on this. Check back later or send me a message if you have
+questions.
 
 ## Description
 
