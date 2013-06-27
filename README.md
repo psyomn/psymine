@@ -10,7 +10,7 @@ order to work with Redmine.
 ### Disclaimer
 
 I'm still working on this. Check back later or send me a message if you have
-questions.
+questions. It should be okay to have a basic script to work with it for now.
 
 ## Description
 
@@ -28,7 +28,28 @@ reason.
 
 ## Examples
 
+This simple script should be able to retrieve your issues and projects from a
+given redmine repository.
+
+    ```ruby
     require 'psymine'
+
+    repo = Psymine::RedmineRepository.new({
+      :api_key => "Your API key",
+      :uri     => "http://redmine.location.com",
+      :label   => "optional local description tag"})
+
+    repo.get_issues.each do |issue|
+      puts issue
+      puts
+    end
+
+    repo.get_projects.each do |project|
+      puts project
+      puts
+    end
+
+    ```
 
 ## Requirements
 
