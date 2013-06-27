@@ -53,3 +53,4 @@ private
 
 end # class ProjectFactory
 end # module Psymine::Domain
+

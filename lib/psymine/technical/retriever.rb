@@ -39,14 +39,15 @@ class Retriever
   #   order to initialize the retriever (and make it understand how to 
   #   interface with redmine).
   def initialize(hparams)
-    # Asserts!
-    check_if_properly_initialized(hparams)
+    # Make sure that the uri ends with a '/'
+    # cases : uri.com vs uri.com/
+    hparams[:uri].gsub!(/\/+$/, '')
+    hparams[:uri].concat('/')
     @username    = hparams[:username]
     @password    = hparams[:password]
     @api_key     = hparams[:api_key]
     @resource    = hparams[:get]
     @redmine_uri = URI(hparams[:uri] + "%s.json" % @resource)
-    # Main init
   end
 
   # Fetch the information from the Redmine tracker.
@@ -57,9 +58,6 @@ class Retriever
     elsif !@password.nil? || @password != "" ||
           !@username.nil? || @username != "" then 
       fetch_by_username_and_password
-    else
-      raise "You have found a bug. Please contact the gem author with this"\
-        " information"
     end
   end
 
@@ -68,7 +66,7 @@ class Retriever
 private
 
   # Provide the API to the REST resource and get info
-  # @return TODO stuff
+  # @return String JSON string of the data requested
   def fetch_by_api_key
     response = nil
     Net::HTTP.start(@redmine_uri.host, @redmine_uri.port) do |http|
@@ -78,7 +76,7 @@ private
       req[Psymine::Rest::HttpHeader] = @api_key
       response = http.request req
     end
-    response
+    response.body
   end
 
   # Provide the username and password to the service using the Http headers
@@ -88,42 +86,6 @@ private
   def fetch_by_username_and_password
     raise NotImplemented, "This might make an appearance later..."
   end
-
-
-  # Checks to see if everything was properly initialized
-  # @hparams are the params passed to the constructor
-  def check_if_properly_initialized(hparams)
-    # It MUST be a hash
-    raise TechnicalException, "hparams is not a hash" unless hparams.is_a? Hash
-
-    # It MUST have a URI
-    if (hparams[:uri].nil? || hparams[:uri] == "") then
-      raise TechnicalException, "need a URI" 
-    end
-    
-    if hparams[:get].nil? # It must have a :get param
-      raise TechnicalException, "need a Symbol for resource request" 
-    else # It must have an acknowleged symbol
-      known = [:issues, :projects]
-      unless known.member? hparams[:get]
-        raise TechnicalException, "Do not know resource '%s'" % hparams[:get]
-      end
-    end
-
-    if (hparams[:api_key].nil? || hparams[:api_key] == "")  &&
-       ((hparams.keys & [:username, :password]).count == 0) && 
-       (hparams[:username].nil?) then
-      raise TechnicalException, "API key cannot be blank"
-    end
-
-    if (hparams[:username].nil? || hparams[:username] == ""   ||
-        hparams[:password].nil? || hparams[:password] == "" ) && 
-        hparams[:api_key].nil? then
-      raise TechnicalException, "You need to specify both credentials"
-    end
-
-  end
-
 end
 end # module Psymine
 

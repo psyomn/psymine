@@ -57,3 +57,4 @@ class Issue
   attr_accessor :done_ratio
 end # class Issue
 end # Psymine::Domain
+

@@ -45,3 +45,4 @@ class Project
   attr_accessor :name
 end
 end # Psymine::Domain
+

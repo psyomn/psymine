@@ -56,7 +56,6 @@ private
     issue.done_ratio   = element["done_ratio"]
     issue
   end
-
-
 end # class IssueFactory
 end # module Psymine::Domain
+
