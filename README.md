@@ -54,9 +54,10 @@ given redmine repository.
 confirming if so).
 
 * Redmine version is greater or equal to 1.1.0 (We use authentication by
-passing the API key through an HTTP header) (Also make sure that you enable
-your REST services on the Redmine administration panel. You can read more about
-this [here](http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication).)
+passing the API key through an HTTP header) 
+
+* Also make sure that you enable your REST services on the Redmine 
+administration panel. You can read more about this [here](http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication).)
 
 ## Install
 
