@@ -41,13 +41,12 @@ class Retriever
   def initialize(hparams)
     # Make sure that the uri ends with a '/'
     # cases : uri.com vs uri.com/
-    hparams[:uri].gsub!(/\/+$/, '')
-    hparams[:uri].concat('/')
+    tmp_uri      = hparams[:uri].gsub!(/\/+$/, '').concat('/')
     @username    = hparams[:username]
     @password    = hparams[:password]
     @api_key     = hparams[:api_key]
     @resource    = hparams[:get]
-    @redmine_uri = URI(hparams[:uri] + "%s.json" % @resource)
+    @redmine_uri = URI(tmp_uri + "%s.json" % @resource)
   end
 
   # Fetch the information from the Redmine tracker.
@@ -68,10 +67,8 @@ private
   # Provide the API to the REST resource and get info
   # @return String JSON string of the data requested
   def fetch_by_api_key
-    response = nil
     Net::HTTP.start(@redmine_uri.host, @redmine_uri.port) do |http|
       req = Net::HTTP::Get.new(@redmine_uri)
-      
       # Set the user authentication API key
       req[Psymine::Rest::HttpHeader] = @api_key
       response = http.request req
