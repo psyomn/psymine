@@ -47,9 +47,7 @@ class RedmineRepository
   #
   # @return Array<Issue>
   def get_issues
-    @issues == nil ? 
-      @issues = get_issues! :
-      @issues
+    @issues ||= get_issues!
   end
 
   # Lazy method to get the projects from the Redmine repo. If projects are not
@@ -58,9 +56,7 @@ class RedmineRepository
   #
   # @return Array<Project>
   def get_projects
-    @projects == nil ?
-      @projects = get_projects! :
-      @projects
+    @projects ||= get_projects!
   end
 
   # Return the Issues from the actual API
