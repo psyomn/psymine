@@ -68,7 +68,7 @@ private
   # @return String JSON string of the data requested
   def fetch_by_api_key
     Net::HTTP.start(@redmine_uri.host, @redmine_uri.port) do |http|
-      req = Net::HTTP::Get.new(@redmine_uri)
+      req = Net::HTTP::Get.new(@redmine_uri.request_uri)
       # Set the user authentication API key
       req[Psymine::Rest::HttpHeader] = @api_key
       response = http.request req
